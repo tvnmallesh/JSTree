@@ -1,0 +1,181 @@
+﻿
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+        .topbar-inner {
+            background-color: #4B0082;
+            background-repeat: repeat-x;
+            color: #909090;
+            text-align: center;
+        }
+
+            .topbar-inner h1 {
+                margin: 0px;
+            }
+    </style>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="~/Content/simple-sidebar.css" rel="stylesheet">
+
+    <script src="~/Scripts/jquery-1.11.0.min.js"></script>
+
+
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+
+    <script src="~/Scripts/JavaScript.js"></script>
+    <script src="~/Scripts/jsPlumb.custom.js"></script>
+    <script src="~/Scripts/ops.custom.js"></script>
+    <script src="~/Scripts/tcasetable.custom.js"></script>
+
+</head>
+<body>
+    <div class="body-content">
+
+        <!--Top Header-->
+        <nav class="navbar navbar-inverse">
+            <ul class="navinlineblock">
+                <li class="navbar-left"><a href="#"><img src="~/Content/Images/nxtgen_logo@3x.png" alt="ITC-Image" /></a></li>
+                <li class="text-center centertext">TEST CASE GENERATION TOOL</li>
+                @*<h2>Welcome: @ViewBag.ClaimsIdentity.Name</h2>*@
+                <li class="navbar-right">
+                    <a href="#"><img src="~/Content/Images/ITCinfotech_logo@3x.png" style="height:46px;" alt="ITC-Image" /></a>@*<li class="navbar-right"><div style="font-size:14px; width:40px;">Welcome <br />@ViewBag.Fname</div></li>*@
+                <li class="navbar-right">
+                    <div class="drpdown" style="font-size:14px; width:40px;">
+                        <div onclick="myFunction()" class="drpbtn">Welcome <br />@*@ViewBag.Fname*@ @HttpContext.Current.Session["Fname"].ToString()</div>
+                        <div id="logDropdown" class="drpdown-content">
+                            <button id="lnkLogout" style="background:transparent;border:none;padding:8px;" onclick="window.location.href = 'logout';">Logout</button>
+                        </div>
+                    </div>
+                    </li>
+
+            </ul>
+        </nav>
+
+        <!--<div class="row">
+        <div style="margin-top:130px;left:950px;position:fixed;z-index: 99 !important;">
+            <button type="button" id="btnAddFlow" class="btn btn-default button" style="display:none;">Add Flow</button><br />
+            <button type="button" id="btnAssFlow" class="btn btn-default button" style="display:none;">Associate Flow</button><br />
+            <button type="button" id="btnE2ECases" class="btn btn-default button" style="display:none;">Generate E2E Cases</button>
+        </div>
+        <!-- ends
+    </div>-->
+
+        <div class="container customcontainer">
+            <!--Left Navigation menu-->
+            <div class="leftcontainer">
+                <div id="mySidenav" class="sidenav" style="width: 240px; margin-top: 26px;">
+                    <p>EXPLORER<img class="closebtn" onclick="closeNav()" src="~/Content/Images/close@3x.png" /></p>
+                    <div class="treedropdown">
+                        <ul>
+                            <li>
+                                <div class="span droptoggles level admin">
+                                    <span oncontextmenu="funcDropdownProject(event,this)">Projects</span>
+
+                                </div>
+                                <ul id="createProjectTree"></ul>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+                <div id="mainhead" style="margin-left: 240px;">
+                    <div class="pull-left">
+                        <button class="btn btn-default" id="hamburgerbtn" style="cursor:pointer;display:none;" onclick="openNav()">&#9776;</button>
+                        <div style="display:none;">
+                            <button type="button" id="loadButton" class="btn btn-warning menu_button button " style="display:none;">Load from local</button>
+                            <button class="btn btn-default addbtn">ADD TASK</button>
+                            <button class="btn btn-default adddesignbtn">ADD DECISION</button>
+                            <button class="btn btn-default compilebtn" id="generateTCasesButton" onclick="checkBox()">COMPILE</button>
+                            <button class="btn btn-default rtestbtn" id="addResultnData">ADD EXPECTED RESULTS &amp; TEST DATA</button>
+                            <button class="btn btn-default savebtn" id="saveNUpdateButton">SAVE</button>
+                            <button id="saveButton" class="btn btn-default publishbtn">PUBLISH AS VERSION</button>
+                            <button class="btn btn-default reganalysis" id="regAnalysisButton" onclick="checkBox()">REGRESSION ANALYSIS</button>
+                            <button class="btn btn-default tsuite" id="Import" onclick="ImportfrmExcel()" style="">IMPORT</button>
+                            <button class="btn btn-default rtestbtn" id="addCreateRules">CREATERULES</button>
+                            @*<div id="container">
+            <input type="file" class="f1" id="inputChoose">
+        </div>*@
+                            <input type="file" id="inputChoose" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="display:none;" onchange="fnChangeFile(this)" />
+                            <button class="btn btn-default tsuite" id="btnTestSuit" style="display:none;visibility:hidden;">TEST SUITE</button>
+                            @*<button class="btn btn-warning menu_button button" id="btnShareWith">SHARE WITH</button>*@
+
+                        </div>
+                    </div>
+                    <div class="dropdown pull-right divSharedWith" style="display:none;">
+                        <button class="btn btn-warning menu_button button dropbtn" id="btnsharedwith">Shared With</button>
+                        <div class="dropdown-content" id="sharedList">
+                            <ul class="list" id="sharedWithList">
+                                @*<li>Agnes<span class="close">&times;</span></li>*@
+                            </ul>
+                        </div>
+
+                    </div>
+                    @*<li class="dropdown " id="dropdown" style="display:none;">
+                        <img src="/Content/Images/more@3x.png" class="moreBtn">
+                        <div class="dropdown-content" id="dropdown-onclick">
+                            <a href="#test" class="drop" id="btnTestSuit">TEST SUITE</a>
+                            <a href="#save" class="drop" id="regAnalysisButton" onclick="checkBox()">REGRESSION ANALYSIS</a>
+                        </div>
+
+                    </li>*@
+
+
+                </div>
+            </div>
+
+            @RenderBody()
+
+            <!--Right Test Scenarios Pane-->
+            <div class="rightcolumn" id="rightCheckBoxBar">
+                @*<div id="divTestCases" style="display:none;">*@
+                <label class="selecteditems" id="lblCompileSuccess"></label>
+                <div class="checkboxform">
+                    <div class="table-responsive testing_table">
+                        <table id="tblTestScen" class="datatable datatable_cst table">
+                            <thead>
+                                <tr>
+                                    <th class="checkbox_item"><label><input type="checkbox" id="selectAll"><label for="selectAll"></label></label></th>
+                                    <th class="tc_item">TC#</th>
+                                    <th class="tble_item">Req</th>
+                                    <th class="tble_item_pr">Priority</th>
+                                    <th class="tble_item">Type</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <table id="tblRegAn" class="datatable datatable_cst table">
+                            <thead>
+                                <tr>
+                                    <th><label><input type="checkbox" id="selectAllReg"><label for="selectAllReg"></label></label></th>
+                                    <th>Test Case</th>
+                                    <th>Regression Analysis</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <table id="controlsExport" cellspacing="10" cellpadding="10"></table>
+                    </div>
+                </div>
+                @*</div>*@
+            </div>
+        </div>
+
+    </div>
+    <footer class="footeralign navbar-fixed-bottom">
+        <div>&copy; 2018, ITC Infotech India Ltd. All rights reserved.<div style="float:right;"><a href="" id="lnkLicenseInfo">License Info</a></div></div>
+        
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script>
+           </script>
+
+</body>

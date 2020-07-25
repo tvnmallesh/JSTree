@@ -1,0 +1,259 @@
+/*body start here*/
+html,body{height:100%;font-family: Arial,sans-serif;}
+.navbar {margin-bottom: 0;border-radius: 0;background-color:#fff;z-index:9999;border:none;}
+.navinlineblock {padding: 15px;list-style-type: none;text-align: center;}
+.navinlineblock li {display: inline-block;font-size: 20px;padding-left: 20px;padding-right: 20px;}
+.navbar-fixed-top{position: fixed;}
+.navinlineblock li.centertext{font-weight: 600;letter-spacing: 0.4px;font-size: 16px;color: #000000;opacity: 0.8;}
+#hamburgerbtn{border-radius:50%;background-color: #fff;width: 35px;height: 35px;}
+.customcontainer{margin: 0px;padding: 0px;width:100%;}
+.leftcolumn{margin: 0px;padding: 0px;}
+.leftcontainer{background: linear-gradient( to right, #f6f6f6 0%, #f6f6f6 5%, #2c5f8a 5%, #2c5f8a 100% );padding: 8px 0px;position: fixed;z-index: 999;width: 100%;}
+#mainhead {transition: margin-left .5s;height:34px;margin-top: 60px;}
+#mainhead button.btn{margin-left:19px;padding: 5px; font-family: Arial,sans-serif;}
+#mainhead button.btn:last-child{margin-right: 10px;}
+#mainhead .addbtn{background-color: #1FB5ED;color:#ffffff;border-radius: 18px;border-color: #1FB5ED;font-size: 12px;letter-spacing: 0.28px;} 
+#mainhead .addbtn:hover{background-color: #1f97ed;}
+#mainhead .btn:active,#mainhead .btn:focus{outline: none;}
+#mainhead .adddesignbtn{background-color: #ca82ca;color:#ffffff;border-radius: 18px;border-color: #ca82ca;font-size: 12px;letter-spacing: 0.28px;} 
+#mainhead .adddesignbtn:hover{background-color: #c36ec3;outline:none;}
+#mainhead .compilebtn{background-color: #a3bc3f;color:#ffffff;border-radius: 18px;border-color: #a3bc3f;font-size: 12px;letter-spacing: 0.28px;} 
+#mainhead .compilebtn:hover{background-color: #93b11d;}
+#mainhead .rtestbtn{background-color: #eca652;color:#ffffff;border-radius: 18px;border-color: #eca652;font-size: 12px;letter-spacing: 0.28px;} 
+#mainhead .analysisbtn{background-color: #eca652;color:#ffffff;border-radius: 18px;border-color: #eca652;font-size: 12px;letter-spacing: 0.28px;} 
+#mainhead .rtestbtn:hover, #mainhead .analysisbtn:hover{background-color: #da943f;}
+#mainhead .btnrightpos{position:absolute;right:0;}
+#mainhead span{padding: 0 6px;font-size: 16px;}
+.sidenav {height: 87%;width: 0;position: fixed;z-index: 1;top: 0px;left: 0;background-color: #f6f6f6;overflow-x: hidden;transition:0.5s;padding-top: 60px;}
+.sidenav p {font-size: 12px;color: #2c5f8a;letter-spacing: 0.3px;transition: 0.3s;position: relative;padding-left:40px;}
+.sidenav .closebtn {position: absolute;top: -8px;right: 14px;font-size: 36px;cursor:pointer;}
+#mainhead .savebtn{background-color: #ff7f7f;color:#ffffff;border-radius: 18px;border-color: #ff7f7f;font-size: 12px;letter-spacing: 0.28px;} 
+#mainhead .savebtn:hover{background-color: 	#ff4c4c;} 
+#mainhead .publishbtn{background-color: #A8A8A8;color:#ffffff;border-radius: 18px;border-color: #A8A8A8;font-size: 12px;letter-spacing: 0.28px;} 
+#mainhead .publishbtn:hover{background-color: 	#989898;} 
+.compilebtn{background-color: #a3bc3f;color:#ffffff;}
+.compilebtn:hover {background-color: #93b11d;color: #ffffff;}
+
+#mainhead .tsuite{background-color: #1FB5ED;color:#ffffff;border-radius: 18px;border-color: #1FB5ED;font-size: 12px;letter-spacing: 0.28px;} 
+#mainhead .tsuite:hover{background-color: #1f97ed;}
+#mainhead .reganalysis{background-color: #ca82ca;color:#ffffff;border-radius: 18px;border-color: #ca82ca;font-size: 12px;letter-spacing: 0.28px;} 
+#mainhead .reganalysis:hover{background-color: #c36ec3;outline:none;}
+
+/* Tree Dropdown Starts here */
+
+.treedropdown {min-height:20px;padding:0px;margin-bottom:20px;background-color:#fbfbfb;border:none;-webkit-border-radius:4px;-moz-border-radius:4px;    border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05)}
+.treedropdown li {list-style-type:none;margin:0;padding:10px 0px 0 0px;position:relative}
+.treedropdown li::before, .treedropdown li::after {content:'';left:-18px;position:absolute;right:auto}
+.treedropdown li::before {border-left:1px solid #c69c6d;bottom:50px;height:100%;top:-1px;width:1px}
+.treedropdown li::after {border-top:1px solid #c69c6d;height:20px;top:23px;width:19px}
+.treedropdown ul:first-child>li>.span:first-child, .treedropdown ul:first-child>li:hover>.span:first-child{background-color:#f5e6c3;}
+.treedropdown li .span {-moz-border-radius:4px;-webkit-border-radius:5px;border:1px solid #c69c6d;border-radius:5px;display:inline-block;padding:3px 8px;text-decoration:none;font-size:14px;color:#585858;}
+.treedropdown li.parent_li>.span {cursor:pointer}
+.treedropdown>ul>li::before, .treedropdown>ul>li::after {border:0}
+.treedropdown li:last-child::before {height:25px}
+.treedropdown li.parent_li>.span:hover, .treedropdown li.parent_li>.span:hover+ul li .span {/*background:#fff;*/border:1px solid #c69c6d;color:#000;}
+.texttitle{white-space: nowrap;width: 113px;overflow: hidden;text-overflow: ellipsis;}
+.treedropdown>ul{    padding: 0px 10px;}
+.parent_li ul{padding-left:20px;}
+
+/* Hover Popup for Project dropdown */
+
+.level.active .sub-level{display: block;padding: 0;text-align: left;z-index: 3333;margin: 0;background-color: #272727;}
+.level.active .sub-level .panel-body, .level.active .sub-level .panel-body>a{background-color: #272727;padding: 2px;border-radius:12px;}
+.sub-level{width:215px;height:auto;display:none;text-align:left;position:absolute;top:5px;right:64px;border:1px solid #d7d7d7;-webkit-box-shadow:0px 3px 5px 0px rgba(0,0,0,0.29);-moz-box-shadow:0px 3px 5px 0px rgba(0,0,0,0.29);box-shadow:0px 3px 5px 0px rgba(0,0,0,0.29);padding:0 25px;}
+ .sub-level.direct{width:150px;height:auto;display:none;text-align:left;position:absolute;top:32px;right:20px;border:1px solid #d7d7d7;-webkit-box-shadow:0px 3px 5px 0px rgba(0,0,0,0.29);-moz-box-shadow:0px 3px 5px 0px rgba(0,0,0,0.29);box-shadow:0px 3px 5px 0px rgba(0,0,0,0.29);padding:0 25px;}
+.sub-level .list-group a.list-group-item.list-group-item-action {padding: 6px 0 6px 15px;color: #f0f0f0;letter-spacing: 0.35px;font-size: 14px;border:none;margin:0px;}
+.sub-level .list-group a.list-group-item.list-group-item-action:hover {padding-left:15px; background-color: #5f5a5a;color: #f0f0f0;border-radius: 3px;}
+
+
+/* FlowChart Starts here */
+
+.flochartinfo{width:100%;/*height:560px;*/position:relative;background: linear-gradient(to right, #f6f6f6 0%, #f6f6f6 5%, #f0f0f0 5%,  #f0f0f0 100%);}
+.flowdiagram{/*margin:0 auto;*/height: 500px;/*width: 640px;*/text-align: center;padding: 20px 0;margin-top:80px;margin-left:240px;}
+/*.flowdiagram>div {margin-top: 35px;}*/
+.flowdiagram .ovalshape{width:56px;height: 30px;border-radius: 50%;background-color:#5a6aa4;-webkit-box-shadow: 0 0 4px 0px #000;-moz-box-shadow: 0 0 4px 0px #000;box-shadow: 0 0 4px 0px #000;text-align:  center;padding: 7px;margin:0 auto;color:#ffffff;font-family: Arial,sans-serif;font-size: 12px;letter-spacing:0.4px;}
+.flowdiagram .rectangeshape{position: relative; width:214px;height: 60px;margin:0 auto;border-radius: 4px;-webkit-box-shadow: 0 0 4px 0px #bf6f36;-moz-box-shadow: 0 0 4px 0px #bf6f36;box-shadow: 0 0 4px 0px #bf6f36;color:#000000;background-color:#fff799;padding: 20px;font-family: Arial,sans-serif;font-size: 16px;letter-spacing:0.4px;border:1px solid #fff77f}
+.flowdiagram .rectangeshape p{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-family: Arial,sans-serif;font-size: 16px;letter-spacing:0.4px;}
+.flowdiagram  .shapes{margin-bottom:15px;}
+.flowdiagram .rectangeshape img{position: absolute;top: -10px;right: -10px;cursor: pointer;}
+.flowdiagram .rectangeshapewhite{position: relative; width:214px;height: 80px;margin:0 auto;border-radius: 4px;-webkit-box-shadow: 0 0 4px 0px #cab7b7;-moz-box-shadow: 0 0 4px 0px #cab7b7;box-shadow: 0 0 4px 0px #cab7b7;color:#000000;background-color:#ffffff;padding: 10px;font-family: Arial,sans-serif;font-size: 16px;letter-spacing:0.4px;border:1px solid #ddd}
+.flowdiagram .rectangeshapewhite p{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-family: Arial,sans-serif;font-size: 16px;letter-spacing:0.4px;}
+.flowdiagram .rectangeshapewhite img{position: absolute;top: -10px;right: -10px;cursor: pointer;}
+
+/*** increment and decrement button in flowchart*/
+
+.buttons{/*padding-right: 15px;padding-top: 15px;*/ margin-top:40px;}
+.AddButton{border-bottom-left-radius: 5px;border-top-left-radius: 5px;background-color: white;}
+.AddButton:focus {outline:0;} 
+.SubstractButton{border-top-right-radius: 5px;border-bottom-right-radius: 5px;background-color: white;}
+.SubstractButton:focus {outline:0;}
+/*.diamond {margin:50px;width:100px;margin:0 auto;height:100px;background:#fff799;-webkit-box-shadow: 0 0 4px 0px #bf6f36;-moz-box-shadow: 0 0 4px 0px #bf6f36;box-shadow: 0 0 4px 0px #bf6f36;transform:rotate(45deg);-ms-transform:rotate(45deg);-webkit-transform:rotate(45deg);}
+.diamond-inner {color:#fff;font-weight:bold;font-size:1.2em;line-height:1.4em;text-align:center;transform:rotate(-45deg);-ms-transform:rotate(-45deg);-webkit-transform:rotate(-45deg);	width:100px;height:100px;display:table-cell;vertical-align:middle;text-align:center;}*/
+
+.diamond {margin:50px;width:100px;margin:0 auto;height:100px;background:#fff799;-webkit-box-shadow: 0 0 4px 0px #bf6f36;-moz-box-shadow: 0 0 4px 0px #bf6f36;box-shadow: 0 0 4px 0px #bf6f36;transform:rotate(45deg);-ms-transform:rotate(45deg);-webkit-transform:rotate(45deg);}
+.diamond-inner {color:#fff;font-weight:bold;font-size:1.2em;line-height:1.4em;text-align:center;transform:rotate(-45deg);-ms-transform:rotate(-45deg);-webkit-transform:rotate(-45deg);	width:100px;height:100px;display:table-cell;vertical-align:middle;text-align:center;
+}
+
+/*Right Section Starts Here*/
+.rightcolumn{width: 250px !important; margin-top: 110px;}
+.rightcolumn .selecteditems{font-family: Arial,sans-serif;font-size: 14px;color: #656565;letter-spacing: 0.35px;line-height: 22px;padding: 3px 0px 2px 20px;background-color: #e0efda;margin: 0px;font-weight: bold}
+.datatable_cst.table {height:240px;}
+#content-scroll{height:350px;}
+.mCSB_container_wrapper{margin-right:5px;margin-bottom: 5px;}
+/*#tblRegAn label{padding:2px 10px 2px !important;}*/
+.checkboxform label{background-color: #ffffff; padding:5px 5px 5px 5px; /*border:1px solid #ddd;*/ position: relative;display:block;margin-bottom: 0;font-weight: 400;vertical-align: middle;cursor:pointer;font-size: 12px;font-family: Arial,sans-serif;color: #000;letter-spacing: 0.35px;}  
+input[type=checkbox] {display: none !important;}
+input[type=checkbox]:checked + label {background-image: url(Images/check@3x.png);height: 17px;width: 17px;display: inline-block;border:none;
+padding: 0 0 0 0px;cursor: pointer;}
+input[type=checkbox] + label {background-image: url(Images/unchecked.png);height: 17px;width: 17px;display: inline-block;padding: 0 0 0 0px;cursor: pointer;border:none;}
+
+/* Rightsection Data table starts here */
+
+.datatable_cst{margin-bottom: 0px!important;}
+.datatable_cst>thead{display:inline!important;}
+.datatable_cst>tbody{display:block!important;width:240px !important;}
+.checkbox_item{padding: 0px !important;}
+.tc_item{padding-right: 8px !important;}
+.tble_item{padding-right: 26px !important;}
+.tble_item_pr{padding-right: 20px !important;}
+.item_no{padding-left: 12px !important;padding-right: 13px !important;}
+.rbt_data{padding-left: 8px !important;padding-right: 2px !important;}
+.testing_table{overflow: hidden !important;text-align: center !important;font-family: Arial,sans-serif !important;font-size: 12px !important;padding:0px 0px 50px 0px !important;}
+.selectedcase {
+    border: 3px solid lightgreen !important;
+}
+.testing_table td,th{border: 1px solid #f0f0f0}
+
+.testing_table>.table>tbody>tr>th, .testing_table>.table>tfoot>tr>td, .testing_table>.table>tfoot>tr>th, .testing_table>.table>thead>tr>td, .testing_table>.table>thead>tr>th{padding-top: 12px !important;padding-bottom: 12px !important;}
+.table thead tr>th, .testing_table>.table>tbody>tr>td{vertical-align: middle !important;
+    /*padding-right: 8px !important;*/}
+.customdrpdwn{padding: 0 !important;width: auto !important;font-size: 12px !important;border: 0px !important;}
+.export{width:100%;height:100%;}
+.export td{border: 0px;padding-left: 10px;}
+
+.export a{text-decoration: none;}
+.details{padding: 4px;}
+/*Scrollbar Starts here */
+
+.mCSB_inside>.mCSB_container{margin-right:22px!important;}
+.mCSB_scrollTools .mCSB_draggerContainer{right:10px;}
+#mCSB_1_dragger_vertical{max-height: 80px !important;}
+.mCS-dark-3.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,.mCS-dark-3.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar:hover, .mCS-dark-3.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar:focus {background-color: #969696;}
+.mCSB_outside+.mCSB_scrollTools{right:-5px !important;}
+
+/*footer start here*/
+
+.footeralign {background-color: #000000;color:#fff;text-align: center;padding: 12px;}
+.footeralign p{margin:0px;}
+
+
+/*Modal*/
+.modal {display: none;position: fixed;padding-top: 100px;left: 0;top: 0;width: 100%;height: 100%;overflow: auto;background-color: rgb(0,0,0);background-color: rgba(0,0,0,0.4);}
+.modal-content {background-color: #fefefe;margin: auto;/*width: 500px;height: 290px;*/}
+.modal-content>h5{ color: #fff;margin: 0;}
+.modal-header,.modal-footer{border: none;}
+.modal-header{height: 2%;}
+label{display: inline-block;}
+.modalboxform label{position: relative;display:block;font-weight: 400;vertical-align: middle;cursor:pointer;font-size: 14px;font-family: Arial,sans-serif;color: #000;padding-bottom: 5px; margin-top: 2px;} 
+.modalBtn{margin-top: -50px;z-index: 1;width: 15%;height: 2%;background-color: rgb(255, 255, 255);border: 1px solid grey;}
+.modal-title{padding: 0px;}
+.modalImg{float: right;margin-top: -25px;cursor: pointer;}
+.modalBody{column-count: 3;}
+
+/* more button*/
+.moreBtn{cursor: pointer; }
+li.dropdown {display: inline-block;}
+    
+.dropdown-content {display: none;position: fixed;background-color: #f9f9f9;min-width: 160px;box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);z-index: 1;right: 4px;}
+
+.dropdown-content a {color: black;padding: 12px 16px;text-decoration: none;display: block;text-align: left;}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {display: block;position: absolute;}
+
+.drop{color:#ffffff;font-size: 12px;letter-spacing: 0.28px;  border: 1px solid lightgray; position: relative;} 
+
+.dropdown{float: right;right: 20px;}
+
+.task .gear {
+    margin-right: 170px !important;
+    margin-top: -20px;
+}
+
+.decision .gear {
+    margin-top: -44px !important;
+    margin-right: 10px !important;
+    transform: rotate(40deg) !important;
+}
+
+#myDropdown {
+    right:20px !important;
+}
+
+#myDropdown a {
+    padding: 0px !important;
+    font-size: 12px !important;
+}
+
+
+#dropScripts input[type=checkbox] {
+    display:inline-block !important;
+}
+#dropScripts {
+    width:180px !important;
+}
+.redtext {
+    color:red;
+    font-size:small;
+    font-weight:bold;
+}
+
+#tblLogin tr td {
+    padding:10px;
+}
+
+.drpbtn {
+    /*background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;*/
+    cursor: pointer;
+    font-weight: bold;
+    color: #2c5f8a;
+}
+
+    /*.drpbtn:hover, .drpbtn:focus {
+        background-color: #2980B9;
+    }*/
+
+.drpdown {
+    position: relative;
+    display: inline-block;
+}
+
+.drpdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 80px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+    .drpdown-content a {
+        color: black;
+        padding: 5px;
+        text-decoration: none;
+        display: block;
+    }
+
+.drpdown a:hover {
+    background-color: #ddd;
+}
+
+.show {
+    display: block;
+}

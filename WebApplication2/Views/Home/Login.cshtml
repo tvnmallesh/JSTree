@@ -1,0 +1,93 @@
+﻿@model mbtTool.Models.LoginInfo
+@{
+    ViewBag.Title = "Login";
+    Layout = "";
+}
+<head>
+    <title>NExtgen Testing Tool</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="~/Content/style.css">
+
+    <script src="~/Scripts/jquery-1.11.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+
+    <script src="~/Scripts/tcasetable.custom.js"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+
+</head>
+
+
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post,new { DefaultButton = "submit_btn", id ="frmLogin"}))
+    {
+        @Html.AntiForgeryToken(); // this is for prevent CSRF attack
+        @Html.ValidationSummary(true)
+
+    <div style="padding:0px;">
+        <div class="col-md-12" style="padding:0px;margin:0px;">
+            <div class="col-md-9" style="padding:0px;margin:0px;">
+                <img src="~/Content/Images/frontpage.png" style="width:100%;height:95%;">
+            </div>
+            <div class="col-md-3" style="text-align:center;">
+                <a href="#"><img src="~/Content/Images/ITCinfotech_logo@3x.png" style="height:86px;" alt="ITC-Image" /></a><br />
+                @if (ViewBag.Message != null)
+            {
+                <div id="popupdiv" style="color: red;font-weight:bold;">
+                    @ViewBag.Message
+                </div>
+        }
+                <table id="tblLogin">
+                    <tr>
+                        <td>
+                            User Id
+                        </td>
+                        <td>
+                            @*<input type="text" id="uname" name="uname" />*@
+                            @Html.TextBoxFor(m => m.UserId, new { autocomplete = "off", @class = "form-control" ,autofocus="", onkeypress = "checkSpcl(event)" })
+                            @Html.ValidationMessageFor(m => m.UserId, "", new { @class = "redtext" })
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Password
+                        </td>
+                        <td>
+                            @Html.PasswordFor(m => m.Password, new { autocomplete = "off", @class = "form-control", onkeypress = "checkSpcl(event)" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "redtext" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input id="submit_btn" type="submit" value="Login" class="btn btn-primary btn-block"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    }
+    <footer class="footeralign navbar-fixed-bottom">
+        <div>&copy; 2018, ITC Infotech India Ltd. All rights reserved.</div>
+
+    </footer>
+
+
+<script>
+    $(document).ready(function () {
+        $("#frmLogin").keypress(function (e) {
+            keycode = e.keyCode || e.charCode || e.which //for cross browser
+            if (keycode == 13)    //keyCode for enter key
+            {
+                var defaultbutton = $(this).attr("DefaultButton");
+                $("#" + defaultbutton).click();
+                return false;
+            }
+        });
+    });
+</script>

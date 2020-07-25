@@ -1,0 +1,203 @@
+/*!
+ * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
+ */
+
+
+/*side menu specific css starts*/
+body {
+  overflow-x: hidden;
+}
+
+#wrapper {
+  padding-left: 0;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+/*#wrapper.toggled {
+  padding-left: 250px;
+}*/
+
+#sidebar-wrapper {
+    position: fixed;
+    /*left: 250px;*/
+    width: 0;
+    /*height: 100%;*/
+    /*margin-left: -250px;*/
+    overflow-y: scroll;
+    overflow-x: scroll;
+    border-right: 1px solid #4B0082;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    background-color: #f5f5f5;    
+    height:550px;
+}
+
+#wrapper {
+    margin-top: 42px;
+}
+
+#wrapperTestCases {    
+    left: 1360px;
+    width: 0;
+    height: 140%;
+    margin-left: -250px;
+    padding-left: 10px;
+    border-left: 1px solid #4B0082;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    top: -40px;
+    /*height: 105vh;*/
+}
+#wrapper.toggled #sidebar-wrapper {
+  width: 210px;
+}
+
+#page-content-wrapper {
+  width: 100%;
+  position: absolute;
+  padding: 15px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+  position: absolute;
+  margin-right: -250px;
+}
+
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+  /*position: absolute;*/
+  top: 0;
+  width: 250px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/*.sidebar-nav li {
+  text-indent: 20px;
+  line-height: 40px;
+}*/
+
+.sidebar-nav li a {
+  display: block;
+  text-decoration: none;
+  color: black;
+}
+
+    .sidebar-nav li a:hover {
+        text-decoration: none;
+        color: #4B0082;
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+.sidebar-nav li a:active, .sidebar-nav li a:focus {
+  text-decoration: none;
+}
+
+.sidebar-nav>.sidebar-brand {
+  height: 65px;
+  font-size: 18px;
+  line-height: 60px;
+}
+
+.sidebar-nav>.sidebar-brand a {
+  color: #999999;
+}
+
+    .sidebar-nav > .sidebar-brand a:hover {
+        color: #4B0082;
+        background: none;
+    }
+
+@media(min-width:768px) {
+  #wrapper {
+    padding-left: 0;
+  }
+  /*#wrapper.toggled {
+    padding-left: 150px;
+  }*/
+  #sidebar-wrapper {
+    width: 0;
+  }
+  /*#wrapper.toggled #sidebar-wrapper {
+    width: 250px;
+  }*/
+  #page-content-wrapper {
+    padding: 20px;
+    position: relative;
+  }
+  #wrapper.toggled #page-content-wrapper {
+    position: relative;
+    margin-right: 0;
+  }
+}
+
+
+/*For the top image icons opening and closing*/
+
+.btnOpen img {
+    width: 34px !important;
+    height: 40px !important;
+    float: right;
+    background: #ADFF2F;
+}
+.btnClose img {
+    width: 34px !important;
+    height: 34px !important;
+    float: left;
+    z-index: 9999;
+    background: white;
+}
+
+
+.pushright {
+    /*float:right;*/
+    left: 225px;
+}
+
+/*so that buttons move when scrolled down/up*/
+.btnsFloat {
+    top: 40px;
+    position: fixed;
+    left: 500px;
+    z-index: 999;
+}
+
+.arrow_cst {
+    top: 0px;
+    position: fixed;
+    left: 600px;
+    z-index: 999;
+}
+/*so that testcase div moves when scrolled down/up*/
+#divTestCases {
+    position: fixed;
+}
+
+.toggledTop {
+    background-color: #ADFF2F;
+    position: fixed;
+}
+
+#lblExplorer {
+    float: left;
+    font-size: 20px;
+    color: gray;
+    text-decoration: none;
+    width: 175px;
+}
+
+/*.editable {
+    height:25px;
+}*/

@@ -1,0 +1,851 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>NExtgen Testing Tool</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="~/Content/style.css">
+    <link href="~/Content/jquery.contextMenu.css" rel="stylesheet" />
+
+    <script src="~/Scripts/JavaScript.js"></script>
+
+    @*Script File for the Excel Generation functionality using AlaSQL*@
+
+
+    
+
+    <script src="~/Scripts/jsPlumb.custom.js"></script>
+
+    <script src="~/Scripts/ops.custom.js"></script>
+    <script src="~/Scripts/tcasetable.custom.js"></script>
+
+    <script src="~/Scripts/xlsx.js"></script>
+    <script src="~/Scripts/jszip.js"></script>
+
+</head>
+
+<body>
+    <style>
+        #TestDataTable > thead tr th {
+            font-size: 14px !important;
+        }
+
+        #TestDataTable > tbody tr td {
+            width: 10% !important;
+            word-wrap: break-word !important;
+            word-break: break-all !important;
+            font-size: 12px;
+        }
+
+        #TestDataTablenew > thead tr th {
+            font-size: 14px !important;
+        }
+
+        #TestDataTablenew > tbody tr td {
+            width: 10% !important;
+            word-wrap: break-word !important;
+            word-break: break-all !important;
+            font-size: 12px;
+        }
+
+        [contenteditable=true]:empty:before {
+            content: attr(placeholder);
+            color: darkgrey;
+        }
+    </style>
+
+    <div class="leftcolumn col-md-10" id="leftcolumn">
+        <div class="flochartinfo">
+            <span class="pull-right buttons zoombuttons" style="display:none;">
+                <button class="AddButton" onclick="zoomin()"><img src="~/Content/Images/Add@3x.png"></button>
+                <button class="SubstractButton" onclick="zoomout()"><img src="~/Content/Images/Sup@3x.png"></button>
+            </span>
+            <div id="parentDrawing" class="flowdiagram" @*style="overflow-x:scroll;"*@>
+                <div id="drawingArea" class="col-md-8" style="min-height:500px;text-align:center;display:none;zoom:100%;" @*style="width:900px;"*@>
+
+                    <div style="display:inline-block;">
+                        <div class="startpoint point ovalshape shapes window node " style="top:50px" data-nodetype="startpoint" id="startpoint">Start</div>
+                        <div class="endpoint point ovalshape shapes window node" style="top:450px" data-nodetype="endpoint" id="endpoint">End</div>
+                    </div>
+                </div>
+                <div>
+                    <div id='dropAddResultnData' class="contextmenucustom">
+                        <ul class='items'>
+                            <li onclick="AddFlowResultnData(this)">Add Expected Results & Test Data</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div id='dropCreateRules' class="contextmenucustom">
+                        <ul class='items'>
+                            <li onclick="AddCreateRules(this)">CreateRules</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="window task" style="left: 120px; top:200px; display:none;" data-nodetype="task" id="taskcontainer0">
+
+                    <div class="rectangeshapewhite shapes">
+
+                        <div class="dropdown">
+                            <img src="~/Content/Images/automatedScript.gif" alt="Automated Script Generated" class="gear dropbtn" oncontextmenu="fndropScripts(event,this)" style="width:50px;height:50px;display:none;" />
+                        </div>
+                        <img src="~/Content/Images/close_box@3x.png" alt="close-image" class="button_remove">
+
+                        <div class="details_container">
+                            <textarea value="" class="detail_text form-control" onchange="clearTable(this)" onkeydown="restrictq(event)"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- decision container box-->
+
+                <div class="window decision" style="left: 250px; top:300px; display:none;" data-nodetype="decision" id="decisioncontainer0">
+                    <div class="dropdown">
+                        <img src="~/Content/Images/automatedScript.gif" alt="Automated Script Generated" class="gear" oncontextmenu="fndropScripts(event,this)" style="width:50px;height:50px;display:none;" />
+                    </div>
+                    <div class="ctrl_container">
+                        <label class="noOfConn" style="visibility:hidden;"></label>
+                        <img src="~/Content/Images/close_box@3x.png" alt="close-image" class="button_remove" style="margin-left:77px;margin-top: -30px;">
+                        <textarea rows="1" cols="20" class="detail_text detail_text_desc form-control" onchange="clearTable(this)" onkeydown="restrictq(event)"></textarea>
+
+                    </div>
+                </div>
+
+                @*<div class=" diamond" data-nodetype="decision" id="decisioncontainer0">
+                    <div class="ctrl_container">
+                        <div class="diamond-inner"> <img src="~/Content/Images/close_box@3x.png" alt="close-image"></div>
+                        <div class="diamond-textarea">
+                            <textarea rows="4" cols="10" class="detail_text detail_text_desc form-control" onchange="clearTable()" onkeydown="restrictq(event)"></textarea>
+                        </div>
+                        </div>
+                    </div>*@
+
+                <div id="divRegAnalysis" class="col-md-8" style="min-height:500px;text-align:center;width:860px;display:none;margin-top:10px;padding-left:0px;">
+                    <ul class="nav nav-tabs" style="width:63.7%;">
+                        <li><a data-toggle="tab" href="#regdrawingArea" id="tab1">V1</a></li>
+                        <li class="active"><a data-toggle="tab" href="#regdrawingArea2" id="tab2">V2</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="regdrawingArea" class="tab-pane fade">
+                            <div style="">
+                                <div class="startpoint1 ovalshape shapes point window node " style="top:150px" data-nodetype="startpoint" id="startpoint1">Start</div>
+                                <div class="endpoint1 point ovalshape shapes window node" style="top:600px" data-nodetype="endpoint" id="endpoint1">End</div>
+                            </div>
+
+                        </div>
+
+                        <div id="regdrawingArea2" class="tab-pane fade in active">
+                            <div style="">
+                                <div class="startpoint2 point ovalshape shapes window node " style="top:150px" data-nodetype="startpoint" id="startpoint2">Start</div>
+                                <div class="endpoint2 point ovalshape shapes window node" style="top:600px" data-nodetype="endpoint" id="endpoint2">End</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Datatable to add Expected results and test data starts here-->
+    <div class="modal fade" id="AddCreateRules" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Create Rules</h5>
+                </div>
+                <div class="modal-body">
+                    <label style="color:red;display:none;" id="lblErrTdata">Please add rules!</label>
+                    <div>
+                        <table id="TestDataTablenew" class="table table-striped table-bordered" style="width:100%;z-index:99999;">
+                            <thead>
+
+                                <tr>
+                                    <th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">
+                                        Decision Box 
+                                    </th>
+                                    @*<th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">Java Test Step</th>
+                                    <th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">Python Test Step</th>
+                                    <th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">C# Test Step</th>
+                                    <th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">VB Test Step</th>
+                                    <th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">Expected Result</th>
+                                    <th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">Manual Test Data</th>
+                                    <th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">Automation Test Data</th>*@
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" id="btnExportCreateRules">Export</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSaveCreateRules">Save For Later</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--ends-->
+    <!-- Bootstrap Datatable to add Expected results and test data starts here-->
+    <div class="modal fade" id="AddExpectedResultsTdata" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Add Expected Results & Test Data</h5>
+                </div>
+                <div class="modal-body">
+                    <label style="color:red;display:none;" id="lblErrTdata">Please add the Expected Results & Test Data first and then click Generate Excel button!</label>
+                    <div>
+                        <table id="TestDataTable" class="table table-striped table-bordered" style="width:100%;z-index:99999;">
+                            <thead>
+
+                                <tr>
+                                    <th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">Manual Test Step</th>
+                                    <th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">Java Test Step</th>
+                                    <th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">Python Test Step</th>
+                                    <th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">C# Test Step</th>
+                                    <!--<th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">VB Test Step</th>-->
+                                    <th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">Expected Result</th>
+                                    <th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">Manual Test Data</th>
+                                    <th style="width:10% !important;word-wrap: break-word !important;word-break: break-all !important;">Automation Test Data</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" id="btnExportExpectedRnTData">Export</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSaveExpectedRnTData">Save For Later</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--ends-->
+    <!-- Contextmenu for adding new modules to project starts-->
+    <div id='dropModule' class="contextmenucustom">
+        <ul class='items'>
+            <li onclick="AddModule()">Add Module</li>
+            <li onclick="RenameProject()">Rename Project</li>
+            <li onclick="DeleteProject()">Delete Project</li>
+            <li id="liShareWith" onclick="shareWithModal()">Share Project</li>
+            @*<li onclick="ImportGlobal()">Import from Global</li>*@
+        </ul>
+    </div>
+    <!-- ends-->
+    <!-- Contextmenu for adding new Model Flows to modules starts-->
+    <div id='dropModelFlow' class="contextmenucustom">
+        <ul class='items'>
+            <li id="liAddModFlow" onclick="AddModelFlow()">Add Model Flow</li>
+            <li onclick="AddRequirement()">Add Requirement</li>
+            @*<li onclick="DeleteModule('@ViewBag.ClaimsIdentity.Name.Replace(@"\",@"-")')">Delete Module</li>*@
+            <li id="pasteFlow" @*onclick="PasteModelFlow('@ViewBag.ClaimsIdentity')"*@ onclick="PasteModelFlow('@HttpContext.Current.Session["ClaimsIdentity"].ToString()')" class="disable">Paste Model Flow</li>
+            <li id="pasteVersions" onclick="PasteVersions('@HttpContext.Current.Session["ClaimsIdentity"].ToString()')" class="disable">Paste All Versions</li>
+            <li onclick="RenameModule()">Rename Module</li>
+            <li onclick="DeleteModule('@HttpContext.Current.Session["ClaimsIdentity"].ToString()')">Delete Module</li>
+        </ul>
+    </div>
+
+    <div id='dropModelFlowOps' class="contextmenucustom">
+        <ul class='items'>
+            <li onclick="DeleteModelFlow('@HttpContext.Current.Session["ClaimsIdentity"].ToString()')">Delete Model Flow</li>
+            <li onclick="CopyModelFlow()">Copy Model Flow</li>
+        </ul>
+    </div>
+
+    <div id='dropCopyAllVersions' class="contextmenucustom">
+        <ul class='items'>
+            <li onclick="CopyWithVersions()">Copy all versions</li>
+            <li onclick="DeleteWithVersions('@HttpContext.Current.Session["ClaimsIdentity"].ToString()')">Delete all versions</li>
+            <li onclick="RenameFlow()">Rename Flow</li>
+        </ul>
+    </div>
+
+    <div id='dropReq' class="contextmenucustom">
+        <ul class='items'>
+            <li onclick="EditReq()">Edit Requirement</li>
+            <li onclick="DeleteReq('@HttpContext.Current.Session["ClaimsIdentity"].ToString()')">Delete Requirement</li>
+        </ul>
+    </div>
+    <!-- ends-->
+    <!-- Contextmenu for adding new Model Flows to modules starts-->
+
+    <div id='dropModelProject' @*class="span droptoggles level admin"*@ class="contextmenucustom">
+
+        @*<div class="panel sub-level direct">
+                <ul class="panel-body list-group items">
+
+                    <li onclick="AddProject()" class="list-group-item list-group-item-action">Add New Project</li>
+                    <li onclick="OpenProjectDialog()" class="list-group-item list-group-item-action">Open Existing</li>
+
+                </ul>
+            </div>*@
+
+        <ul class='items'>
+            <li onclick="AddProject()">
+                Add New Project
+            </li>
+            @*<li onclick="OpenProjectDialog('@ViewBag.ClaimsIdentity.Name.Replace(@"\",@"-")')">*@
+            <li onclick="OpenProjectDialog('@HttpContext.Current.Session["ClaimsIdentity"].ToString()')">
+                Open Existing
+            </li>
+        </ul>
+    </div>
+    <div id='dropAddResultnData' class="contextmenucustom">
+        <ul class='items'>
+            <li onclick="AddFlowResultnData(this)">Add Expected Results & Test Data</li>
+        </ul>
+    </div>
+    <div id='dropCreateRules' class="contextmenucustom">
+        <ul class='items'>
+            <li onclick="AddCreateRules(this)">CreateRules</li>
+        </ul>
+
+    </div>
+    <div id='dropScripts' class="contextmenucustom">
+        <ul class='items'>
+            @*<li>
+                    <input type="checkbox" value="1" name="fooby[1][]" />Kiwi
+                </li>
+                <li>
+                    <input type="checkbox" value="1" name="fooby[1][]" />Jackfruit
+                </li>
+                <li>
+                    <input type="checkbox" value="1" name="fooby[1][]" />Mango
+                </li>*@
+        </ul>
+    </div>
+
+    <!-- ends-->
+    <!-- Bootstrap Modal for Creating Project-->
+    <div class="modal fade" id="CreateProject" role="dialog" onclick="$('#txtProjectName').focus();" onkeypress="dismissmodal(this,event)">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Create New Project</h5>
+                </div>
+                <div class="modal-body">
+                    <h6>Enter Project Name</h6>
+                    <input type="text" class="form-control nospcl" id="txtProjectName" onkeyup="validateLength(this)" onpaste="return false;" />
+                    <label style="color:red;visibility:hidden;" id="lblErrPr"></label>
+                </div>
+                <div class="modal-footer footer-disabled">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="createProject('@HttpContext.Current.Session["ClaimsIdentity"].ToString()')" disabled="disabled">Create</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Bootstrap Modal for Adding new Module to project-->
+    <div class="modal fade" id="CreateModule" role="dialog" onclick="$('#txtModuleName').focus();" onkeypress="dismissmodal(this,event)">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Create New Module</h5>
+                </div>
+                <div class="modal-body">
+                    <h6>Enter Module Name</h6>
+                    <input type="text" class="form-control nospcl" id="txtModuleName" onkeyup="validateLength(this)" onpaste="return false;" />
+                    <label style="color:red;visibility:hidden;" id="lblErrMo"></label>
+                </div>
+                <div class="modal-footer footer-disabled">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="newModule(this)" disabled="disabled">Create</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Bootstrap Modal for Adding new Model Flow to Module-->
+    <div class="modal fade" id="CreateModelFlow" role="dialog" onclick="$('#txtModelFlow').focus();" onkeypress="dismissmodal(this,event)">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Create New Model Flow</h5>
+                </div>
+                <div class="modal-body">
+                    <h6>Enter Model Flow Name</h6>
+                    <input type="text" class="form-control nospcl" id="txtModelFlow" onkeyup="validateLength(this)" onpaste="return false;" />
+                    <label style="color:red;visibility:hidden;" id="lblErr"></label>
+                </div>
+                <div class="modal-footer footer-disabled">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="newFlow(this)" disabled="disabled">Create</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="RenameModelFlow" role="dialog" onclick="$('#txtRenameFlow').focus();" onkeypress="dismissmodal(this,event)">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Rename Model Flow</h5>
+                </div>
+                <div class="modal-body">
+                    <h6>Enter New Name</h6>
+                    <input type="text" class="form-control nospcl" id="txtRenameFlow" onkeyup="validateLength(this)" onpaste="return false;" />
+                    <label style="color:red;visibility:hidden;" id="lblErrRenameFlow"></label>
+                </div>
+                <div class="modal-footer footer-disabled">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="renameFlow(this,'@HttpContext.Current.Session["ClaimsIdentity"].ToString()')" disabled="disabled">Rename</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="RenameModule" role="dialog" onclick="$('#txtRenameModule').focus();" onkeypress="dismissmodal(this,event)">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Rename Module</h5>
+                </div>
+                <div class="modal-body">
+                    <h6>Enter New Name</h6>
+                    <input type="text" class="form-control nospcl" id="txtRenameModule" onkeyup="validateLength(this)" onpaste="return false;" />
+                    <label style="color:red;visibility:hidden;" id="lblErrRenameModule"></label>
+                </div>
+                <div class="modal-footer footer-disabled">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="renameModule(this,'@HttpContext.Current.Session["ClaimsIdentity"].ToString()')" disabled="disabled">Rename</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="RenameProject" role="dialog" onclick="$('#txtRenameProject').focus();" onkeypress="dismissmodal(this,event)">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Rename Project</h5>
+                </div>
+                <div class="modal-body">
+                    <h6>Enter New Name</h6>
+                    <input type="text" class="form-control nospcl" id="txtRenameProject" onkeyup="validateLength(this)" onpaste="return false;" />
+                    <label style="color:red;visibility:hidden;" id="lblErrRenameProject"></label>
+                </div>
+                <div class="modal-footer footer-disabled">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="renameProject(this,'@HttpContext.Current.Session["ClaimsIdentity"].ToString()')" disabled="disabled">Rename</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="CreateRequirement" role="dialog" onkeypress="dismissmodal(this,event)">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Create/Edit Requirement</h5>
+                </div>
+                <div class="modal-body">
+                    <h6>Requirement Name</h6>
+                    <input type="text" class="form-control nospclbtspce" id="txtRequirementName" onkeyup="validateLength(this)" onpaste="return false;" maxlength="40" />
+                    <h6>Description</h6>
+                    <textarea type="text" class="form-control nospclbtspce" id="txtDesc" onpaste="return false;"></textarea>
+                    <h6>Acceptance Criteria</h6>
+                    <textarea type="text" class="form-control nospclbtspce" id="txtAccCriteria" onpaste="return false;"></textarea>
+                    <label style="color:red;visibility:hidden;" id=""></label>
+                </div>
+                <div class="modal-footer footer-disabled">
+                    <button id="createReq" type="button" class="btn btn-default" data-dismiss="modal" onclick="createRequirement(this,'@HttpContext.Current.Session["ClaimsIdentity"].ToString()')" disabled="disabled">Create</button>
+                    <button id="editReq" type="button" class="btn btn-default" data-dismiss="modal" onclick="editRequirement(this,'@HttpContext.Current.Session["ClaimsIdentity"].ToString()')" style="display:none;">Edit & Save</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="OpenExistingDialog" role="dialog" onkeypress="dismissmodal(this,event)">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Select Project(s) to Open</h5>
+                </div>
+                <div class="modal-body" id="divExistingProjects">
+                    <label style="color:red;visibility:hidden;" id="lblErrOpen"></label>
+                </div>
+                <div class="modal-footer footer-disabled">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="OpenExisting('@HttpContext.Current.Session["ClaimsIdentity"].ToString()')" disabled="disabled" id="btnOpenExisting">Open</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="ShareWithDialog" role="dialog" onkeypress="dismissmodal(this,event)">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Share With ITC Employee</h5>
+                </div>
+                <div class="modal-body">
+                    <h6>Enter the PSID of Employee you want to share Project with</h6>
+                    <input type="text" class="form-control" id="txtPSID" onkeyup="validateLength(this)" onpaste="return false;" />
+                    <label style="color:red;visibility:hidden;" id="lblErrPr"></label>
+                </div>
+                <div class="modal-footer footer-disabled">
+                    <button id="btnShare" type="button" class="btn btn-default" data-dismiss="modal" onclick="ShareWith('@HttpContext.Current.Session["ClaimsIdentity"].ToString()')" disabled="disabled">Share Project</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="LicenseInfo" role="dialog" onkeypress="dismissmodal(this,event)">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title" style="font-weight:bold;">License Information</h5>
+                </div>
+                <div class="modal-body">
+
+                    <p>Your License is valid till @ViewBag.EndDate</p>
+                    @if (@ViewBag.Status == "Active")
+                    {
+                        <p>Status : <font color="#32CD32" style="font-weight:bold">@ViewBag.Status</font></p>
+                    }
+                    else
+                    {
+                        <p>Status : <font color="Red" style="font-weight:bold">@ViewBag.Status</font></p>
+                    }
+                </div>
+                <div class="modal-footer footer-disabled">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+    @section scripts{
+
+        <script src="~/Scripts/jsPlumb.custom.js"></script>
+        <script src="~/Scripts/ops.custom.js"></script>
+        <script src="~/Scripts/tcasetable.custom.js"></script>
+        <script src="~/Scripts/alasql.min.js"></script>
+        <script src="~/Scripts/xlsx.core.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+        <script src="~/Scripts/jquery-1.11.0.min.js"></script>
+        <script src="~/Scripts/bootstrap.js"></script>
+        <script src="~/Scripts/jquery-ui.min.js"></script>
+        <script src="~/Scripts/jquery.dataTables.min.js"></script>
+        <script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+        <script src="~/Scripts/jquery.contextMenu.js"></script>
+        @*<script src="~/Scripts/jquery.ui.position.js"></script>*@
+        <script src="~/Scripts/jspdf.min.js"></script>
+        <script src="~/Scripts/html2canvas.min.js"></script>
+        <script src="~/Scripts/canvg.min.js"></script>
+        <script src="~/Scripts/md5.min.js"></script>
+
+        <script src="~/Scripts/customized.js"></script>
+        <script src="~/Scripts/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="~/Scripts/jquery.blockUI.js"></script>
+        <script src="~/Scripts/jquery.xml2json.js"></script>
+
+        @*Script File for the SVG Diagram functionality*@
+
+        <script>
+
+            function parseXML(file) {
+                var reader = new FileReader();
+                var XL_row_object;
+                var json_object;
+                var exresTdataImport = [];
+                var existExRes;
+                var exExRes = [];
+                //alert(file);
+                reader.readAsBinaryString(file);
+                var data = reader.result;
+                var xml = data;
+                var json = $.xml2json(xml);
+                console.log(json);
+                var jsonAsString = JSON.stringify(json, null, 2);
+                return jsonAsString;
+            }
+
+
+            function SaveUserWork() {
+                saveFlowchart(null, '@HttpContext.Current.Session["ClaimsIdentity"].ToString()')
+            }
+
+            //JSplumb related to generate SVG diagrams and its elements
+            var numberOfElements = 0;
+            var htmlBase = 'drawingArea';
+            jsPlumb.ready(function () {
+                //FIX DOM:
+                $(("#taskcontainer0"))[0].innerHTML = $(("#taskcontainer0"))[0].innerHTML;
+                $(("#decisioncontainer0"))[0].innerHTML = $(("#decisioncontainer0"))[0].innerHTML;
+
+                jsPlumb.draggable($(".window"));
+
+                jsPlumb.importDefaults({
+                    Endpoint: ["Dot", { radius: 8 }],
+                    EndpointStyle: { fillStyle: "#4A6" },
+                    HoverPaintStyle: { strokeStyle: "#5a6aa4", lineWidth: 8 },
+                    Connector: ["Flowchart"],
+                    ConnectionOverlays: [
+                        ["Arrow", {
+                            location: 1,
+                            id: "arrow",
+                            length: 10,
+                            width: 10,
+                            foldback: 1
+                        }]
+                    ]
+                });
+
+                var workflowConnectorStartpoint = {
+                    isSource: true,
+                    isTarget: false,
+                    maxConnections: 1,
+                    anchor: "BottomCenter"
+                };
+
+                var workflowConnectorEndpoint = {
+                    isSource: false,
+                    isTarget: true,
+                    maxConnections: -1,
+                    anchor: "TopCenter",
+                    paintStyle: { fillStyle: 'red' },
+                    endpoint: ["Rectangle", { width: 12, height: 12 }],
+                    uuid: "endpoint"
+                };
+
+                jsPlumb.addEndpoint(
+                    $('.startpoint'),
+                    workflowConnectorStartpoint
+                );
+
+                jsPlumb.addEndpoint(
+                    $('.endpoint'),
+                    workflowConnectorEndpoint
+                );
+
+                $('#' + htmlBase).on("click", ".button_remove", function () {
+                    var parentnode = $(this)[0].parentNode.parentNode;
+                    jsPlumb.detachAllConnections(parentnode);
+                    jsPlumb.removeAllEndpoints(parentnode);
+                    $(parentnode).remove();
+                    clearTable();
+
+                    $('#generateTCasesButton').hide();
+                    $('#addResultnData').hide();
+                    $('#addCreateRules').hide();
+                    $('#saveNUpdateButton').show();
+                    $('#saveButton').show();
+                    $(".divElement").remove();
+                    $("#GenerateExcel4Selected").remove();
+                    $("#rowControls").remove();
+                    $("#ExportToPDF").remove();
+                    $("#rowHeader").remove();
+                    $('#lblCompileSuccess').hide();
+                });
+
+                $(".addbtn").click(function () {
+                    addTask();
+                });
+
+                $(".adddesignbtn").click(function () {
+                    addDecision();
+                });
+
+                $("#btnAddFlow").click(function () {
+                    addFlowContainer();
+                    $("#btnAddFlow").attr("disabled", "disabled");
+                    $("#btnAssFlow").removeAttr("disabled");
+                });
+
+                $("#btnAssFlow").click(function () {
+                    $('.flowElement').css("border", "4px solid #7FFF00");
+                    $('.flowElement').attr("onclick", "setValueforFlow(this)");
+                });
+
+                $("#btnE2ECases").click(function () {
+                    GenerateEnd2EndCases();
+                });
+
+                $('#saveButton').click(function () {
+                    saveFlowchart(this, '@HttpContext.Current.Session["ClaimsIdentity"].ToString()');
+                    //$('#saveButton').hide();
+                    //$('#generateTCasesButton').show();
+                });
+
+                $('#saveNUpdateButton').click(function () {
+                    saveFlowchart(this, '@HttpContext.Current.Session["ClaimsIdentity"].ToString()');
+                    $('#saveNUpdateButton').hide();
+                    $('#generateTCasesButton').show();
+                });
+
+                $('#btnTestSuit').click(function () {
+                    funcPrepTestSuite()
+                });
+
+                $('#generateTCasesButton').click(function () {
+                    $.blockUI({
+                        css: {
+                            border: 'none',
+                            padding: '15px',
+                            backgroundColor: '#000',
+                            '-webkit-border-radius': '10px',
+                            '-moz-border-radius': '10px',
+                            opacity: .5,
+                            color: '#fff'
+                        },
+                        onBlock: function () {
+                            saveLocally();
+                            fnTestCases();
+                            AddControlsForTcases();
+                            $('#addResultnData').show();
+                            $('#addCreateRules').show();
+                            $('.btnsFloat').css("left", "225");
+                            var a = $('.endpoint').offset().top - $('#startpoint').offset().top + 100;
+                            $("#drawingArea").height(a);
+                            $(".flochartinfo").height(a);
+                            $("#selectAll").prop('checked', false);
+                            $.unblockUI();
+                        }
+
+                    });
+                });
+
+                $('#loadButton').click(function () {
+                    loadFlowchart();
+                });
+                //function addtest() {
+
+                //   // alert('test');
+                //    alert('enterinto addreust');
+                //    ExcelTestCase();
+                //    $('#GenerateExcel4Selected').removeAttr('disabled');
+                //    $('#GenerateExcel4Selected').css("cursor", "pointer");
+                //    var var_url = window.location.href;
+                //    $('#GenerateExcel4Selected').attr("src", "../Content/Images/Excel@3x.png");
+                //}
+
+                $('#addResultnData').click(function () {
+                   // alert('enterinto addreust');
+                    ExcelTestCase();
+                    $('#GenerateExcel4Selected').removeAttr('disabled');
+                    $('#GenerateExcel4Selected').css("cursor", "pointer");
+                    var var_url = window.location.href;
+                    $('#GenerateExcel4Selected').attr("src", "../Content/Images/Excel@3x.png");
+                    //$('#lblGenerateExcel').attr("onclick", "fnGenerateExcel4Selected()");
+                });
+
+
+
+                $('#addCreateRules').click(function () {
+                    //alert('enterinto addreust');
+                    ExcelTestCasenew();
+                    $('#GenerateExcel4Selected').removeAttr('disabled');
+                    $('#GenerateExcel4Selected').css("cursor", "pointer");
+                    var var_url = window.location.href;
+                    $('#GenerateExcel4Selected').attr("src", "../Content/Images/Excel@3x.png");
+                    //$('#lblGenerateExcel').attr("onclick", "fnGenerateExcel4Selected()");
+                });
+
+                $('#saveAsGlobalButton').click(function () {
+                    SaveAsGlobal();
+                });
+
+                $('#regAnalysisButton').click(function () {
+                    $("#selectAllReg").prop('checked', false);
+                    prepRegAnalysScreen();
+                    $("#saveNUpdateButton").hide();
+                    $("#saveButton").hide();
+$("#Import").hide();
+                    $("#inputChoose").hide();
+
+                });
+            });
+
+
+            $.post("../Home/CheckSession", function (data) {
+                var result = data;
+                if (result == "false") {
+                    window.location.href = "/Home/Login";
+                }
+            });
+
+            if ("@ViewBag.Status"== "Expired") {
+                $('.treedropdown').remove();
+                $('#LicenseInfo').modal({
+                    show: true,
+                    backdrop: 'static',
+                    keyboard: true
+                });
+            }
+
+            function getURL() {
+                var url;
+                $.ajax({
+                    url: "@Url.Action("getURL", "Home")",
+                    type: 'GET',
+                    async: false,
+                    success: function (data) {
+                        url = data;
+                    },
+                    error: function (Response) {
+                    }
+                });
+                return url;
+            }
+
+            function getOwner() {
+                return "@HttpContext.Current.Session["Fname"].ToString()";
+            }
+        </script>
+    }
+
+
+</body>
+</html>
